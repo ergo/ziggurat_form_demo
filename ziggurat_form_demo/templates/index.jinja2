@@ -1,0 +1,25 @@
+{% extends "layout.jinja2" %}
+{% from 'macros.jinja2' import render_field %}
+{% block title %}Index{% endblock %}
+{% block content %}
+    <h1>Basic form</h1>
+
+    <form method="post" action="{{ request.current_route_url() }}">
+    {{ render_field(form.schema_instance) }}
+    </form>
+
+    <style type="text/css">
+    form > .panel{
+        border: 0px;
+    }
+    legend{
+        font-size: 12px;
+        display: inline-block;
+        width: auto;
+        padding: 0px 10px;
+        margin-left: 10px;
+        border: 1px solid #e5e5e5;
+    }
+    </style>
+
+{% endblock %}

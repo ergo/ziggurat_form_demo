@@ -1,0 +1,27 @@
+{% macro render_field(field, top_level=False) -%}
+    {% if field.widget %}
+        {{ field.widget.marker_start }}
+        {% for error in field.widget.errors %}
+            <div class="text-danger">{{ error }}</div>
+        {% endfor %}
+        {% if field.children %}
+            <fieldset class="panel panel-default">
+            {% if field.widget.label %}<legend>{{ field.widget.label }}</legend>{% endif %}
+                <div class="panel-body">
+                    {% for subfield in field.children %}
+                        {{ render_field(subfield) }}
+                    {% endfor %}
+                </div>
+            </fieldset>
+        {% else %}
+            <div class="form-group">
+                <label>{{ field.widget.label }} {% if field.widget.required %}*{% endif %} </label>
+                {{ field.widget( class_="form-control") }}
+            </div>
+        {% endif %}
+        {{ field.widget.marker_end }}
+    {% endif %}
+{%- endmacro %}
+
+
+
