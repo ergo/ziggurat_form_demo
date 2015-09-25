@@ -6,6 +6,7 @@
 
     <form method="post" action="{{ request.current_route_url() }}">
     {{ render_field(form.schema_instance) }}
+    <button type="submit" class="btn btn-primary">Submit</button>
     </form>
 
     <style type="text/css">

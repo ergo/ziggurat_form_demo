@@ -16,7 +16,7 @@ def basic_form(request):
     data = {'password': 'xx', "phones": [{}], "subperson": {}, "user_name": "us"}
 
     form = ZigguratForm(UserSchema)
-    form.set_data(request.POST or data)
+    form.set_data(request.POST)
     if request.method == "POST" and form.validate():
         pass
 

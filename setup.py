@@ -10,7 +10,8 @@ requires = [
     'pyramid>=1.0.2',
     'pyramid_jinja2',
     'pyramid_debugtoolbar',
-    'waitress'
+    'waitress',
+    'ziggurat_form'
 ]
 
 setup(name='ziggurat_form_demo',
