@@ -1,26 +1,27 @@
-{% macro render_field(field, top_level=False) -%}
-    {% if field.widget %}
-        {{ field.widget.marker_start }}
-        {% for error in field.widget.errors %}
-            <div class="text-danger">{{ error }}</div>
-        {% endfor %}
-        {% if field.children %}
-            <fieldset class="panel panel-default">
-            {% if field.widget.label %}<legend>{{ field.widget.label }}</legend>{% endif %}
-                <div class="panel-body">
-                    {% for subfield in field.children %}
-                        {{ render_field(subfield) }}
-                    {% endfor %}
-                </div>
-            </fieldset>
-        {% else %}
-            <div class="form-group">
-                <label>{{ field.widget.label }} {% if field.widget.required %}*{% endif %} </label>
-                {{ field.widget( class_="form-control") }}
+{% macro render_widget(widget, top_level=False) -%}
+    {{ widget.__class__.__name__, widget }}
+    <br/>
+    {{ widget.data }}
+    {{ widget.marker_start }}
+    {% for error in widget.errors %}
+        <div class="text-danger">{{ error }}</div>
+    {% endfor %}
+    {% if widget.children %}
+        <fieldset class="panel panel-default">
+        {% if widget.label %}<legend>{{ widget.label }}</legend>{% endif %}
+            <div class="panel-body">
+                {% for subwidget in widget.children %}
+                    {{ render_widget(subwidget) }}
+                {% endfor %}
             </div>
-        {% endif %}
-        {{ field.widget.marker_end }}
+        </fieldset>
+    {% else %}
+        <div class="form-group">
+            <label>{{ widget.label }} {% if widget.required %}*{% endif %} </label>
+            {{ widget( class_="form-control") }}
+        </div>
     {% endif %}
+    {{ widget.marker_end }}
 {%- endmacro %}
 
 

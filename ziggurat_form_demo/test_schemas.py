@@ -75,3 +75,10 @@ class UserSchema(colander.MappingSchema):
         widget=TextWidget(validators=[test_validator]))
 
     subperson = Person()
+
+
+class PhoneSchema(colander.MappingSchema):
+
+    prefix = colander.SchemaNode(colander.String(), validator=colander.Length(min=3))
+    phones = Phones()
+    suffix = colander.SchemaNode(colander.String(), validator=colander.Length(min=3))
