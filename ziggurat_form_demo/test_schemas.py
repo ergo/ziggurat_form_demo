@@ -77,7 +77,7 @@ class UserSchema(colander.MappingSchema):
     subperson = Person()
 
 
-class PhoneSchema(colander.MappingSchema):
+class PhonesSchema(colander.MappingSchema):
 
     prefix = colander.SchemaNode(colander.String(), validator=colander.Length(min=3))
     phones = Phones()

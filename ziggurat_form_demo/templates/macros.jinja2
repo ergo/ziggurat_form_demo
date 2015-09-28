@@ -1,7 +1,5 @@
 {% macro render_widget(widget, top_level=False) -%}
-    {{ widget.__class__.__name__, widget }}
     <br/>
-    {{ widget.data }}
     {{ widget.marker_start }}
     {% for error in widget.errors %}
         <div class="text-danger">{{ error }}</div>
