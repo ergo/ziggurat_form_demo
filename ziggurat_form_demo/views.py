@@ -19,7 +19,6 @@ def basic_form(request):
     form = ZigguratForm(UserSchema)
     form.set_data(data)
 
-
     return {"form": form}
 
 

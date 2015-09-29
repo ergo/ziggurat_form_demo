@@ -1,5 +1,9 @@
 {% macro render_widget(widget, top_level=False) -%}
+    n: {{ widget.name }}
     <br/>
+    data: {{ widget.get_data_from_parent() }}
+    <br/>
+    c: {{ widget.children }}
     {{ widget.marker_start }}
     {% for error in widget.errors %}
         <div class="text-danger">{{ error }}</div>
