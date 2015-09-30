@@ -27,7 +27,6 @@ def basic_form(request):
 
 @view_config(route_name='forms', match_param='view=phones_form', renderer='form_page.jinja2')
 def phones_form(request):
-    print('START')
     form = ZigguratForm(PhonesSchema)
 
     data = {
