@@ -24,6 +24,7 @@ def basic_form(request):
 
 @view_config(route_name='forms', match_param='view=phones_form', renderer='form_page.jinja2')
 def phones_form(request):
+    print('START')
     form = ZigguratForm(PhonesSchema)
 
     data = {
@@ -36,11 +37,11 @@ def phones_form(request):
                    {'location': 'warsaw', 'number': 123}],
         "suffix": "bla"
     }
-
+    print('SET DATA')
     if request.method == 'POST':
         print(list(request.POST.items()))
         form.set_data(request.POST)
     else:
         form.set_data(data)
-
+    print('END')
     return {"form": form}
