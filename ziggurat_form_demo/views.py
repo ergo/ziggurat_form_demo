@@ -17,7 +17,10 @@ def basic_form(request):
     data = {'password': 'xx', "phones": [{}], "subperson": {}, "user_name": "us"}
 
     form = ZigguratForm(UserSchema)
-    form.set_data(data)
+    if request.method == 'POST':
+        form.set_data(request.POST)
+    else:
+        form.set_data(data)
 
     return {"form": form}
 
@@ -37,11 +40,9 @@ def phones_form(request):
                    {'location': 'warsaw', 'number': 123}],
         "suffix": "bla"
     }
-    print('SET DATA')
+
     if request.method == 'POST':
-        print(list(request.POST.items()))
         form.set_data(request.POST)
     else:
         form.set_data(data)
-    print('END')
     return {"form": form}

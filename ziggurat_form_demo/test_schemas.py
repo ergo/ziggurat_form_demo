@@ -80,5 +80,6 @@ class UserSchema(colander.MappingSchema):
 class PhonesSchema(colander.MappingSchema):
 
     prefix = colander.SchemaNode(colander.String(), validator=colander.Length(min=3))
+    friend = Friend()
     phones = Phones()
     suffix = colander.SchemaNode(colander.String(), validator=colander.Length(min=3))
