@@ -3,7 +3,13 @@
 {% block title %}Index{% endblock %}
 {% block content %}
     <h1>Basic form</h1>
-
+    {% if form.valid %}
+        <p class="alert alert-success">Form VALIID</p>
+    {% elif form.valid is none %}
+        <p class="alert alert-info">Form not validated</p>
+    {% else %}
+        <p class="alert alert-danger">Form INVALIID</p>
+    {% endif %}
     <form method="post" action="{{ request.current_route_url() }}">
     {{ render_widget(form.widget) }}
     <button type="submit" class="btn btn-primary">Submit</button>

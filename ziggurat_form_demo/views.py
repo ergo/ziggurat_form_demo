@@ -19,6 +19,7 @@ def basic_form(request):
     form = ZigguratForm(UserSchema)
     if request.method == 'POST':
         form.set_data(request.POST)
+        form.validate()
     else:
         form.set_data(data)
 
@@ -42,6 +43,7 @@ def phones_form(request):
 
     if request.method == 'POST':
         form.set_data(request.POST)
+        form.validate()
     else:
         form.set_data(data)
     return {"form": form}
