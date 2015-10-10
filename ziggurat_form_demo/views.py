@@ -1,7 +1,7 @@
 from pyramid.i18n import TranslationStringFactory
 from pyramid.view import view_config
 from ziggurat_form.form import ZigguratForm
-from .test_schemas import UserSchema, PhonesSchema
+from .test_schemas import UserSchema, PhonesSchema, UserLoginSchema, UserRegisterSchema
 import pprint
 
 _ = TranslationStringFactory('ziggurat_form_demo')
@@ -11,6 +11,22 @@ _ = TranslationStringFactory('ziggurat_form_demo')
 def index(request):
     return {}
 
+
+@view_config(route_name='forms', match_param='view=user_login_form', renderer='form_page.jinja2')
+def user_login_form(request):
+    form = ZigguratForm(UserLoginSchema)
+    if request.method == 'POST':
+        form.set_data(request.POST)
+        form.validate()
+    return {"form": form}
+
+@view_config(route_name='forms', match_param='view=user_register_form', renderer='form_page.jinja2')
+def user_register_form(request):
+    form = ZigguratForm(UserRegisterSchema)
+    if request.method == 'POST':
+        form.set_data(request.POST)
+        form.validate()
+    return {"form": form}
 
 @view_config(route_name='forms', match_param='view=basic_form', renderer='form_page.jinja2')
 def basic_form(request):

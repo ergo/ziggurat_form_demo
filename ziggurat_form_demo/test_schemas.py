@@ -1,7 +1,6 @@
 import colander
 
-from ziggurat_form.widgets import TextWidget, MappingWidget, PositionalWidget, TupleWidget, FormInvalid
-
+from ziggurat_form.widgets import TextWidget, MappingWidget, PositionalWidget, TupleWidget, FormInvalid, PasswordWidget, ConfirmWidget
 
 choices = (
     ('', '- Select -'),
@@ -46,11 +45,17 @@ class AddressSchema(colander.MappingSchema):
         colander.String(), validator=colander.Length(min=3))
 
 
-
 def test_validator(field):
     # print('validating', field, field.form)
     raise FormInvalid("Custom validation error")
     return True
+
+
+def username_validator(field):
+    if field.data == 'admin':
+        return True
+
+    raise FormInvalid('Custom validation message: Needs to be "admin"')
 
 
 class UserSchema(colander.MappingSchema):
@@ -78,8 +83,26 @@ class UserSchema(colander.MappingSchema):
 
 
 class PhonesSchema(colander.MappingSchema):
-
     prefix = colander.SchemaNode(colander.String(), validator=colander.Length(min=3),
                                  widget=TextWidget(validators=[test_validator]))
     phones = Phones(widget=PositionalWidget(validators=[test_validator]))
     suffix = colander.SchemaNode(colander.String(), validator=colander.Length(min=3))
+
+
+class UserLoginSchema(colander.MappingSchema):
+    username = colander.SchemaNode(colander.String(), validator=colander.Length(min=3),
+                                   widget=TextWidget(validators=[username_validator]),
+                                   description='Value of "admin" will pass')
+
+    password = colander.SchemaNode(colander.String(), validator=colander.Length(min=3),
+                                   widget=PasswordWidget())
+
+class UserRegisterSchema(colander.MappingSchema):
+    username = colander.SchemaNode(colander.String(), validator=colander.Length(min=3),
+                                   widget=TextWidget(validators=[username_validator]),
+                                   description='Value of "admin" will pass')
+
+    password = colander.SchemaNode(colander.String(), validator=colander.Length(min=3),
+                                   widget=ConfirmWidget(TextWidget()))
+
+    email = colander.SchemaNode(colander.String(), validator=colander.Email())

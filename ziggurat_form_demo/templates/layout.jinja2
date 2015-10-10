@@ -33,6 +33,8 @@
         <div class="col-lg-3">
             <h4>Menu</h4>
             <ul>
+                <li><a href="{{ request.route_url('forms', view='user_login_form') }}">User login form</a></li>
+                <li><a href="{{ request.route_url('forms', view='user_register_form') }}">User registration form</a></li>
                 <li><a href="{{ request.route_url('forms', view='basic_form') }}">Basic form</a></li>
                 <li><a href="{{ request.route_url('forms', view='phones_form') }}">Phones form</a></li>
             </ul>
