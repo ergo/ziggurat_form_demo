@@ -1,6 +1,13 @@
 import colander
-
-from ziggurat_form.widgets import TextWidget, MappingWidget, PositionalWidget, TupleWidget, FormInvalid, PasswordWidget, ConfirmWidget
+from ziggurat_form.widgets import (
+    TextWidget,
+    FormInvalid,
+    TupleWidget,
+    ConfirmWidget,
+    MappingWidget,
+    PasswordWidget,
+    PositionalWidget
+)
 
 choices = (
     ('', '- Select -'),
@@ -59,9 +66,10 @@ def username_validator(field):
 
 
 class UserSchema(colander.MappingSchema):
-    user_name = colander.SchemaNode(colander.String(),
-                                    validator=colander.Length(min=3),
-                                    widget=TextWidget(validators=[test_validator]))
+    user_name = colander.SchemaNode(
+        colander.String(),
+        validator=colander.Length(min=3),
+        widget=TextWidget(validators=[test_validator]))
     password = colander.SchemaNode(colander.String(),
                                    validator=colander.Length(min=3),
                                    title='Lilu Dallas Multipass!',
@@ -83,26 +91,33 @@ class UserSchema(colander.MappingSchema):
 
 
 class PhonesSchema(colander.MappingSchema):
-    prefix = colander.SchemaNode(colander.String(), validator=colander.Length(min=3),
-                                 widget=TextWidget(validators=[test_validator]))
+    prefix = colander.SchemaNode(
+        colander.String(), validator=colander.Length(min=3),
+        widget=TextWidget(validators=[test_validator]))
     phones = Phones(widget=PositionalWidget(validators=[test_validator]))
-    suffix = colander.SchemaNode(colander.String(), validator=colander.Length(min=3))
+    suffix = colander.SchemaNode(
+        colander.String(), validator=colander.Length(min=3))
 
 
 class UserLoginSchema(colander.MappingSchema):
-    username = colander.SchemaNode(colander.String(), validator=colander.Length(min=3),
-                                   widget=TextWidget(validators=[username_validator]),
-                                   description='Value of "admin" will pass')
+    username = colander.SchemaNode(
+        colander.String(), validator=colander.Length(min=3),
+        widget=TextWidget(validators=[username_validator]),
+        description='Value of "admin" will pass')
 
-    password = colander.SchemaNode(colander.String(), validator=colander.Length(min=3),
-                                   widget=PasswordWidget())
+    password = colander.SchemaNode(
+        colander.String(), validator=colander.Length(min=3),
+        widget=PasswordWidget())
+
 
 class UserRegisterSchema(colander.MappingSchema):
-    username = colander.SchemaNode(colander.String(), validator=colander.Length(min=3),
-                                   widget=TextWidget(validators=[username_validator]),
-                                   description='Value of "admin" will pass')
+    username = colander.SchemaNode(
+        colander.String(), validator=colander.Length(min=3),
+        widget=TextWidget(validators=[username_validator]),
+        description='Value of "admin" will pass')
 
-    password = colander.SchemaNode(colander.String(), validator=colander.Length(min=3),
-                                   widget=ConfirmWidget(TextWidget()))
+    password = colander.SchemaNode(
+        colander.String(), validator=colander.Length(min=3),
+        widget=ConfirmWidget(TextWidget()))
 
     email = colander.SchemaNode(colander.String(), validator=colander.Email())
