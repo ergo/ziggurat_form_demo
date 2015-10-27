@@ -15,7 +15,10 @@
     {% else %}
         <div class="form-group">
             <label>{{ widget.label }} {% if widget.required %}*{% endif %} </label>
-            {{ widget( class_="form-control") }}
+            {% set class_ = widget.kwargs.get('class_', "form-control") %}
+            {% set kwargs = widget.kwargs %}
+            {% do widget.kwargs.update({"class_": class_}) %}
+            {{ widget(*widget.args, **widget.kwargs) }}
         </div>
     {% endif %}
     {{ widget.marker_end }}

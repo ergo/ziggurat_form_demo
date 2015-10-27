@@ -2,11 +2,16 @@ from pyramid.i18n import TranslationStringFactory
 from pyramid.view import view_config, view_defaults
 from ziggurat_form.form import ZigguratForm
 
-from .test_schemas import (
+from .schemas.test_schemas import (
     UserSchema,
     PhonesSchema,
     UserLoginSchema,
     UserRegisterSchema
+)
+from .schemas.deformdemo_schemas import (
+    TextWidgetSchema,
+    TextWidgetReadOnly,
+    TextWidgetWithCssSchema
 )
 
 _ = TranslationStringFactory('ziggurat_form_demo')
@@ -74,3 +79,18 @@ class DemoFormView(object):
                        {'location': 'warsaw', 'number': 123}],
             "suffix": "bla"
         }
+
+    @FormView(TextWidgetSchema)
+    @view_config(match_param='view=textwidget_form')
+    def textwidget_form(self):
+        return None
+
+    @FormView(TextWidgetWithCssSchema)
+    @view_config(match_param='view=textwidget_with_css_form')
+    def textwidget_with_css_form(self):
+        return None
+
+    @FormView(TextWidgetReadOnly)
+    @view_config(match_param='view=textwidget_readonly')
+    def textwidget_readonly(self):
+        return {"text": "I'm readonly text!"}
