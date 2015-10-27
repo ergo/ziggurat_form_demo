@@ -1,8 +1,13 @@
 from pyramid.i18n import TranslationStringFactory
-from pyramid.view import view_config
+from pyramid.view import view_config, view_defaults
 from ziggurat_form.form import ZigguratForm
-from .test_schemas import UserSchema, PhonesSchema, UserLoginSchema, UserRegisterSchema
-import pprint
+
+from .test_schemas import (
+    UserSchema,
+    PhonesSchema,
+    UserLoginSchema,
+    UserRegisterSchema
+)
 
 _ = TranslationStringFactory('ziggurat_form_demo')
 
@@ -12,54 +17,60 @@ def index(request):
     return {}
 
 
-@view_config(route_name='forms', match_param='view=user_login_form', renderer='form_page.jinja2')
-def user_login_form(request):
-    form = ZigguratForm(UserLoginSchema)
-    if request.method == 'POST':
-        form.set_data(request.POST)
-        form.validate()
-    return {"form": form}
+class FormView(object):
 
-@view_config(route_name='forms', match_param='view=user_register_form', renderer='form_page.jinja2')
-def user_register_form(request):
-    form = ZigguratForm(UserRegisterSchema)
-    if request.method == 'POST':
-        form.set_data(request.POST)
-        form.validate()
-    return {"form": form}
+    def __init__(self, form, **kwargs):
+        self.form = form
+        self.kwargs = kwargs
 
-@view_config(route_name='forms', match_param='view=basic_form', renderer='form_page.jinja2')
-def basic_form(request):
-    data = {'password': 'xx', "phones": [{}], "subperson": {}, "user_name": "us"}
+    def form_view(self, request, data):
+        form = ZigguratForm(self.form)
+        if request.method == 'POST':
+            form.set_data(request.POST)
+            form.validate()
+        elif data:
+            form.set_data(data)
 
-    form = ZigguratForm(UserSchema)
-    if request.method == 'POST':
-        form.set_data(request.POST)
-        form.validate()
-    else:
-        form.set_data(data)
+        return {"form": form}
 
-    return {"form": form}
+    def __call__(self, func):
+        def wrapped(View):
+            return self.form_view(View.request, func(View.request))
+        return wrapped
 
 
-@view_config(route_name='forms', match_param='view=phones_form', renderer='form_page.jinja2')
-def phones_form(request):
-    form = ZigguratForm(PhonesSchema)
+@view_defaults(route_name="forms", renderer="form_page.jinja2")
+class DemoFormView(object):
 
-    data = {
-        "prefix": 1,
-        "aaaa": "bbbb",
-        "phones": [{'number': '1', 'location': 'dadada'},
-                   {'y': 5},
-                   {'number': 'abc'},
-                   {},
-                   {'location': 'warsaw', 'number': 123}],
-        "suffix": "bla"
-    }
+    def __init__(self, request):
+        self.request = request
 
-    if request.method == 'POST':
-        form.set_data(request.POST)
-        form.validate()
-    else:
-        form.set_data(data)
-    return {"form": form}
+    @FormView(UserLoginSchema)
+    @view_config(match_param='view=user_login_form')
+    def user_login_form(self):
+        return None
+
+    @FormView(UserRegisterSchema)
+    @view_config(match_param='view=user_register_form')
+    def user_register_form(self):
+        return None
+
+    @FormView(UserSchema)
+    @view_config(match_param='view=basic_form')
+    def basic_form(self):
+        return {'password': 'xx', "phones": [{}], "subperson": {},
+                "user_name": "us"}
+
+    @FormView(PhonesSchema)
+    @view_config(match_param='view=phones_form')
+    def phones_form(self):
+        return {
+            "prefix": 1,
+            "aaaa": "bbbb",
+            "phones": [{'number': '1', 'location': 'dadada'},
+                       {'y': 5},
+                       {'number': 'abc'},
+                       {},
+                       {'location': 'warsaw', 'number': 123}],
+            "suffix": "bla"
+        }

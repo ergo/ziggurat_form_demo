@@ -1,11 +1,10 @@
 from pyramid.config import Configurator
 
 
-
 def main(global_config, **settings):
     """ This function returns a WSGI application.
-    
-    It is usually called by the PasteDeploy framework during 
+
+    It is usually called by the PasteDeploy framework during
     ``paster serve``.
     """
     settings = dict(settings)
