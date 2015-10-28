@@ -3,11 +3,13 @@ from ziggurat_form.widgets import (
     TextWidget,
     FormInvalid,
     TupleWidget,
+    SelectWidget,
     ConfirmWidget,
     MappingWidget,
     PasswordWidget,
     PositionalWidget
 )
+from webhelpers2.html.tags import Option , OptGroup
 
 choices = (
     ('', '- Select -'),
@@ -121,3 +123,27 @@ class UserRegisterSchema(colander.MappingSchema):
         widget=ConfirmWidget(TextWidget()))
 
     email = colander.SchemaNode(colander.String(), validator=colander.Email())
+
+
+class SelectWidgetSchema(colander.MappingSchema):
+    # XXX rename
+    users = colander.SchemaNode(
+        colander.String(),
+        widget=SelectWidget(
+            options=[
+                OptGroup("Vegetable", (
+                    Option("cabbage", 1),
+                    Option("turnip", "2"),
+                    Option("radish", "3"),
+                    Option("carrot", "4"),
+                    Option("lettuce", "5"),
+                )),
+                OptGroup("Fruits", (
+                    Option("apple", "6"),
+                    Option("mango", "7"),
+                    Option("banana", "8"),
+
+                ))
+            ]
+        )
+    )

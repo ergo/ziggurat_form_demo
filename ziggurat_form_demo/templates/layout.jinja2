@@ -42,11 +42,13 @@
         <div class="col-lg-3">
             <h4>Menu</h4>
             <ul>
-              {% for view in request.registry.introspector.get_category('views') %}
+              {% set views=request.registry.introspector.get_category('views') %}
+              {% for view in views %}
                 {% set view_callable_method_name = view['introspectable']['attr'] %}
                 {% if view_callable_method_name %}
                   <li><a href="{{ request.route_url('forms', view=view_callable_method_name) }}">
-                    {{ view_callable_method_name }}
+                    {% set view_callable = view['introspectable']['callable'] %}
+                    {{ getattr(view_callable, view_callable_method_name).__doc__ or view_callable_method_name }}
                   </a></li>
                 {% endif %}
               {% endfor %}
