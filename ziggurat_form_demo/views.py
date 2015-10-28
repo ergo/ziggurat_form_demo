@@ -12,8 +12,9 @@ from .schemas.test_schemas import (
 )
 from .schemas.deformdemo_schemas import (
     TextWidgetSchema,
-    TextWidgetReadOnly,
-    TextWidgetWithCssSchema
+    CheckboxWidgetSchema,
+    TextWidgetWithCssSchema,
+    TextWidgetReadOnlySchema
 )
 
 _ = TranslationStringFactory('ziggurat_form_demo')
@@ -69,6 +70,7 @@ class DemoFormView(object):
     def user_register_form(self):
         """ User register
         """
+        return {'password': 'xx'}
 
     @FormView(UserSchema)
     @view_config(match_param='view=basic_form')
@@ -106,7 +108,7 @@ class DemoFormView(object):
         """ Text Input Widget with CSS class
         """
 
-    @FormView(TextWidgetReadOnly)
+    @FormView(TextWidgetReadOnlySchema)
     @view_config(match_param='view=textwidget_readonly')
     def textwidget_readonly(self):
         """ Text Input Widget readonly"""
@@ -117,3 +119,10 @@ class DemoFormView(object):
     def selectwidget_schema(self):
         """ Select Widget
         """
+
+    @FormView(CheckboxWidgetSchema)
+    @view_config(match_param='view=checkboxwidget_schema')
+    def checkboxwidget_schema(self):
+        """ Checkbox Widget
+        """
+        return {'want': False, 'want2': True}
