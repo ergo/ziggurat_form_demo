@@ -9,7 +9,6 @@ from ziggurat_form.widgets import (
     PasswordWidget,
     PositionalWidget
 )
-from webhelpers2.html.tags import Option , OptGroup
 
 choices = (
     ('', '- Select -'),
@@ -17,6 +16,21 @@ choices = (
     ('jalapeno', 'Jalapeno'),
     ('chipotle', 'Chipotle')
 )
+
+grouped_choices = {
+    '': (
+        ('', '- Select -'),
+    ),
+    'hot': (
+        ('habanero', 'Habanero'),
+        ('jalapeno', 'Jalapeno'),
+        ('chipotle', 'Chipotle')
+    ),
+    'honey': (
+        ('honey', 'Honey'),
+        ('marshmallow', 'Marshmallow'),
+    )
+}
 
 
 class Friend(colander.TupleSchema):
@@ -126,24 +140,13 @@ class UserRegisterSchema(colander.MappingSchema):
 
 
 class SelectWidgetSchema(colander.MappingSchema):
-    # XXX rename
-    users = colander.SchemaNode(
+    select = colander.SchemaNode(
         colander.String(),
-        widget=SelectWidget(
-            options=[
-                OptGroup("Vegetable", (
-                    Option("cabbage", 1),
-                    Option("turnip", "2"),
-                    Option("radish", "3"),
-                    Option("carrot", "4"),
-                    Option("lettuce", "5"),
-                )),
-                OptGroup("Fruits", (
-                    Option("apple", "6"),
-                    Option("mango", "7"),
-                    Option("banana", "8"),
-
-                ))
-            ]
-        )
+        validator=colander.OneOf([x[0] for x in choices]),
+        widget=SelectWidget(values=choices)
+    )
+    grouped_select = colander.SchemaNode(
+        colander.String(),
+        validator=colander.OneOf([x[0] for x in choices]),
+        widget=SelectWidget(values=grouped_choices)
     )
