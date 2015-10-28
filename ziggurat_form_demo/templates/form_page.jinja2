@@ -2,7 +2,13 @@
 {% from 'macros.jinja2' import render_widget %}
 {% block title %}Index{% endblock %}
 {% block content %}
-    <h1>Basic form</h1>
+    {% set attr_view = request.matchdict['view'] %}
+    {% for view in views %}
+      {% if view['introspectable']['attr'] == attr_view %}
+        {% set view_callable = view['introspectable']['callable'] %}
+        <h1>{{ getattr(view_callable, attr_view).__doc__ or attr_view }}</h1>
+      {% endif %}
+    {% endfor %}
     {% if form.valid %}
         <p class="alert alert-success">Form VALIID</p>
     {% elif form.valid is none %}

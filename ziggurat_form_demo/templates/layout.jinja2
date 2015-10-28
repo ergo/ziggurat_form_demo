@@ -11,9 +11,18 @@
     <title>Ziggurat Form Demo</title>
 
     <!-- Bootstrap core CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"/>
 
-
+    <style>
+      .ziggurat-widget-with-style {
+          background-color: #fff7c0;
+          border: 2px solid #71a23c;
+          font-weight: bold;
+          margin: 0;
+          padding: 10px;
+          width: 100px;
+      }
+    </style>
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -33,10 +42,16 @@
         <div class="col-lg-3">
             <h4>Menu</h4>
             <ul>
-                <li><a href="{{ request.route_url('forms', view='user_login_form') }}">User login form</a></li>
-                <li><a href="{{ request.route_url('forms', view='user_register_form') }}">User registration form</a></li>
-                <li><a href="{{ request.route_url('forms', view='basic_form') }}">Basic form</a></li>
-                <li><a href="{{ request.route_url('forms', view='phones_form') }}">Phones form</a></li>
+              {% set views=request.registry.introspector.get_category('views') %}
+              {% for view in views %}
+                {% set view_callable_method_name = view['introspectable']['attr'] %}
+                {% if view_callable_method_name %}
+                  <li><a href="{{ request.route_url('forms', view=view_callable_method_name) }}">
+                    {% set view_callable = view['introspectable']['callable'] %}
+                    {{ getattr(view_callable, view_callable_method_name).__doc__ or view_callable_method_name }}
+                  </a></li>
+                {% endif %}
+              {% endfor %}
             </ul>
         </div>
 

@@ -1,6 +1,14 @@
 import colander
-
-from ziggurat_form.widgets import TextWidget, MappingWidget, PositionalWidget, TupleWidget, FormInvalid, PasswordWidget, ConfirmWidget
+from ziggurat_form.widgets import (
+    TextWidget,
+    FormInvalid,
+    TupleWidget,
+    SelectWidget,
+    ConfirmWidget,
+    MappingWidget,
+    PasswordWidget,
+    PositionalWidget
+)
 
 choices = (
     ('', '- Select -'),
@@ -8,6 +16,21 @@ choices = (
     ('jalapeno', 'Jalapeno'),
     ('chipotle', 'Chipotle')
 )
+
+grouped_choices = {
+    '': (
+        ('', '- Select -'),
+    ),
+    'hot': (
+        ('habanero', 'Habanero'),
+        ('jalapeno', 'Jalapeno'),
+        ('chipotle', 'Chipotle')
+    ),
+    'honey': (
+        ('honey', 'Honey'),
+        ('marshmallow', 'Marshmallow'),
+    )
+}
 
 
 class Friend(colander.TupleSchema):
@@ -59,9 +82,10 @@ def username_validator(field):
 
 
 class UserSchema(colander.MappingSchema):
-    user_name = colander.SchemaNode(colander.String(),
-                                    validator=colander.Length(min=3),
-                                    widget=TextWidget(validators=[test_validator]))
+    user_name = colander.SchemaNode(
+        colander.String(),
+        validator=colander.Length(min=3),
+        widget=TextWidget(validators=[test_validator]))
     password = colander.SchemaNode(colander.String(),
                                    validator=colander.Length(min=3),
                                    title='Lilu Dallas Multipass!',
@@ -83,26 +107,46 @@ class UserSchema(colander.MappingSchema):
 
 
 class PhonesSchema(colander.MappingSchema):
-    prefix = colander.SchemaNode(colander.String(), validator=colander.Length(min=3),
-                                 widget=TextWidget(validators=[test_validator]))
+    prefix = colander.SchemaNode(
+        colander.String(), validator=colander.Length(min=3),
+        widget=TextWidget(validators=[test_validator]))
     phones = Phones(widget=PositionalWidget(validators=[test_validator]))
-    suffix = colander.SchemaNode(colander.String(), validator=colander.Length(min=3))
+    suffix = colander.SchemaNode(
+        colander.String(), validator=colander.Length(min=3))
 
 
 class UserLoginSchema(colander.MappingSchema):
-    username = colander.SchemaNode(colander.String(), validator=colander.Length(min=3),
-                                   widget=TextWidget(validators=[username_validator]),
-                                   description='Value of "admin" will pass')
+    username = colander.SchemaNode(
+        colander.String(), validator=colander.Length(min=3),
+        widget=TextWidget(validators=[username_validator]),
+        description='Value of "admin" will pass')
 
-    password = colander.SchemaNode(colander.String(), validator=colander.Length(min=3),
-                                   widget=PasswordWidget())
+    password = colander.SchemaNode(
+        colander.String(), validator=colander.Length(min=3),
+        widget=PasswordWidget())
+
 
 class UserRegisterSchema(colander.MappingSchema):
-    username = colander.SchemaNode(colander.String(), validator=colander.Length(min=3),
-                                   widget=TextWidget(validators=[username_validator]),
-                                   description='Value of "admin" will pass')
+    username = colander.SchemaNode(
+        colander.String(), validator=colander.Length(min=3),
+        widget=TextWidget(validators=[username_validator]),
+        description='Value of "admin" will pass')
 
-    password = colander.SchemaNode(colander.String(), validator=colander.Length(min=3),
-                                   widget=ConfirmWidget(TextWidget()))
+    password = colander.SchemaNode(
+        colander.String(), validator=colander.Length(min=3),
+        widget=ConfirmWidget(TextWidget()))
 
     email = colander.SchemaNode(colander.String(), validator=colander.Email())
+
+
+class SelectWidgetSchema(colander.MappingSchema):
+    select = colander.SchemaNode(
+        colander.String(),
+        validator=colander.OneOf([x[0] for x in choices]),
+        widget=SelectWidget(values=choices)
+    )
+    grouped_select = colander.SchemaNode(
+        colander.String(),
+        validator=colander.OneOf([x[0] for x in choices]),
+        widget=SelectWidget(values=grouped_choices)
+    )
