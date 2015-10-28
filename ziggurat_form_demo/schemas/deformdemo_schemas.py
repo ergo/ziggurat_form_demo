@@ -1,12 +1,7 @@
 import colander
 from ziggurat_form.widgets import (
     TextWidget,
-    FormInvalid,
-    TupleWidget,
-    ConfirmWidget,
-    MappingWidget,
-    PasswordWidget,
-    PositionalWidget
+    CheckboxWidget,
 )
 
 
@@ -32,8 +27,26 @@ class TextWidgetWithCssSchema(colander.Schema):
         description='Enter some text')
 
 
-class TextWidgetReadOnly(colander.Schema):
+class TextWidgetReadOnlySchema(colander.Schema):
     text = colander.SchemaNode(
         colander.String(),
         widget=TextWidget(readonly=True),
+    )
+
+
+class CheckboxWidgetSchema(colander.MappingSchema):
+    """
+    http://deformdemo.repoze.org/checkbox/
+    """
+    want = colander.SchemaNode(
+        colander.Boolean(),
+        description='Check this box!',
+        widget=CheckboxWidget(),
+        title='I Want It!'
+    )
+    want2 = colander.SchemaNode(
+        colander.Boolean(),
+        description='Check this box!',
+        widget=CheckboxWidget(),
+        title='I Want It!'
     )
