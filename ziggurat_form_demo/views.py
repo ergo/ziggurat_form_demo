@@ -5,6 +5,7 @@ from ziggurat_form.form import ZigguratForm
 
 from .schemas.test_schemas import (
     UserSchema,
+    group_schema,
     PhonesSchema,
     UserLoginSchema,
     SelectWidgetSchema,
@@ -126,3 +127,12 @@ class DemoFormView(object):
         """ Checkbox Widget
         """
         return {'want': False, 'want2': True}
+
+    @FormView(group_schema)
+    @view_config(match_param='view=group_schema')
+    def group_schema(self):
+        """ Group Schema
+        """
+        return  {
+            "": {'grouped_select': 'honey', 'select': 'jalapeno'}
+        }  # Valid data!
