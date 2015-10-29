@@ -138,6 +138,7 @@ class DemoFormView(object):
         """ Group Schema
         """
         # TODO: issue #1 - submit value is not correct and validate is broken
+        # need confirmation if it is fixed now and working as intended
         return {
             "": {'grouped_select': 'honey', 'select': 'jalapeno'}
         }
@@ -148,6 +149,7 @@ class DemoFormView(object):
         """ Crazy Deep Group Schema
         """
         # TODO: issue #2 - submit value is not correct and validate is broken
+        # need confirmation if it is fixed now and working as intended
         return {'':
                 {'':
                  {'foo100':
@@ -168,4 +170,6 @@ class DemoFormView(object):
         """ ConfirmWidget in schema wih empty name
         """
         # TODO: issue #3 - it raises TypeError
+        # this is actually wrong because the value of '' should be {} instead of ''
+        # that is why it failed but I've added a check to prevent this from happening
         return {'': ''}
