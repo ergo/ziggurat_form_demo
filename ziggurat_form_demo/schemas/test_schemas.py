@@ -134,7 +134,7 @@ class UserRegisterSchema(colander.MappingSchema):
 
     password = colander.SchemaNode(
         colander.String(), validator=colander.Length(min=3),
-        widget=ConfirmWidget(TextWidget()))
+        widget=ConfirmWidget(PasswordWidget()))
 
     email = colander.SchemaNode(colander.String(), validator=colander.Email())
 
