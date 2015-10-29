@@ -150,3 +150,10 @@ class SelectWidgetSchema(colander.MappingSchema):
         validator=colander.OneOf([x[0] for x in choices]),
         widget=SelectWidget(values=grouped_choices)
     )
+
+
+class GroupSchema(colander.MappingSchema):
+    pass
+
+group_schema = GroupSchema()
+group_schema.add(SelectWidgetSchema())
