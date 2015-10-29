@@ -14,7 +14,9 @@
         </fieldset>
     {% else %}
         <div class="form-group">
+            {% if widget.label %}
             <label>{{ widget.label }} {% if widget.required %}*{% endif %} </label>
+            {% endif %}
             {% set class_ = widget.kwargs.get('class_', "form-control") %}
             {% set kwargs = widget.kwargs %}
             {% do widget.kwargs.update({"class_": class_}) %}
