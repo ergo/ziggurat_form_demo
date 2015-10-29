@@ -6,6 +6,8 @@ from ziggurat_form.form import ZigguratForm
 from .schemas.test_schemas import (
     UserSchema,
     group_schema,
+    group_schema2,
+    group_schema3,
     PhonesSchema,
     UserLoginSchema,
     SelectWidgetSchema,
@@ -133,6 +135,35 @@ class DemoFormView(object):
     def group_schema(self):
         """ Group Schema
         """
-        return  {
+        # TODO: issue #1 - submit value is not correct and validate is broken
+        return {
             "": {'grouped_select': 'honey', 'select': 'jalapeno'}
-        }  # Valid data!
+        }
+
+    @FormView(group_schema2)
+    @view_config(match_param='view=group_schema2')
+    def group_schema2(self):
+        """ Crazy Deep Group Schema
+        """
+        # TODO: issue #2 - submit value is not correct and validate is broken
+        return {'':
+                {'':
+                 {'foo100':
+                  {'':
+                   {'':
+                    {'':
+                     {'foo': 'sdfsdf'}
+                     }
+                    }
+                   }
+                  }
+                 }
+                }
+
+    @FormView(group_schema3)
+    @view_config(match_param='view=group_schema3')
+    def group_schema3(self):
+        """ ConfirmWidget in schema wih empty name
+        """
+        # TODO: issue #3 - it raises TypeError
+        return {'': ''}

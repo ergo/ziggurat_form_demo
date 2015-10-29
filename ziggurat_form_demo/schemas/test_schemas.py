@@ -157,3 +157,38 @@ class GroupSchema(colander.MappingSchema):
 
 group_schema = GroupSchema()
 group_schema.add(SelectWidgetSchema())
+
+
+class GroupSchema2(colander.MappingSchema):
+    foo = colander.SchemaNode(
+        colander.String(),
+        widget=TextWidget()
+    )
+
+schema = colander.Schema(name="foo")
+schema1 = colander.Schema(name="foo1")
+schema2 = colander.Schema(name="foo2")
+schema3 = colander.Schema(name="foo3")
+schema4 = colander.Schema(name="foo4")
+schema1.add(schema2)
+schema2.add(schema3)
+schema3.add(schema4)
+schema4.add(GroupSchema2(name="foo5"))
+schema.add(schema1)
+group_schema2 = colander.Schema()
+group_schema2.add(schema)
+
+schema = colander.Schema()
+schema1 = colander.Schema()
+schema2 = colander.Schema(name="foo100")
+schema3 = colander.Schema()
+schema4 = colander.Schema()
+schema1.add(schema2)
+schema2.add(schema3)
+schema3.add(schema4)
+schema4.add(GroupSchema2())
+schema.add(schema1)
+group_schema2.add(schema)
+
+group_schema3 = GroupSchema()
+group_schema3.add(UserRegisterSchema())
