@@ -80,7 +80,9 @@ class DemoFormView(object):
     def basic_form(self):
         """ Basic form
         """
-        return {'password': 'xx', "phones": [{}], "subperson": {},
+        return {'password': 'xx', "phones": [{},
+                                             {'location': 'a', 'number': 123}],
+                "subperson": {},
                 "user_name": "us"}
 
     @FormView(PhonesSchema)
