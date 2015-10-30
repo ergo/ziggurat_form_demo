@@ -16,6 +16,7 @@ from .schemas.test_schemas import (
 from .schemas.deformdemo_schemas import (
     TextWidgetSchema,
     FieldDefaultsSchema,
+    HiddenMissingSchema,
     CheckboxWidgetSchema,
     TextWidgetWithCssSchema,
     TextWidgetReadOnlySchema
@@ -176,3 +177,10 @@ class DemoFormView(object):
         """ Field Defaults
         """
         # TODO: issue: is not set default
+
+    @FormView(HiddenMissingSchema)
+    @view_config(match_param='view=hiddenmissing_schema')
+    def hiddenmissing_schema(self):
+        """ Hidden, Missing Widget Representing an Integer
+        """
+        # TODO: issue: is not set missing colander.null

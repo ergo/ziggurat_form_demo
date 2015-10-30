@@ -1,6 +1,7 @@
 import colander
 from ziggurat_form.widgets import (
     TextWidget,
+    HiddenWidget,
     CheckboxWidget,
 )
 
@@ -66,3 +67,16 @@ class FieldDefaultsSchema(colander.Schema):
     song = colander.SchemaNode(
         colander.String(),
         description='Song name')
+
+
+class HiddenMissingSchema(colander.Schema):
+    """
+    http://deformdemo.repoze.org/hiddenmissing/
+    """
+    title = colander.SchemaNode(
+        colander.String())
+    number = colander.SchemaNode(
+        colander.Integer(),
+        widget=HiddenWidget(),
+        missing=colander.null,
+    )
