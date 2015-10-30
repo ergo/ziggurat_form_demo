@@ -50,3 +50,19 @@ class CheckboxWidgetSchema(colander.MappingSchema):
         widget=CheckboxWidget(),
         title='I Want It!'
     )
+
+
+class FieldDefaultsSchema(colander.Schema):
+    """
+    http://deformdemo.repoze.org/fielddefaults/
+    """
+    artist = colander.SchemaNode(
+        colander.String(),
+        default='Grandaddy',
+        description='Song name')
+    album = colander.SchemaNode(
+        colander.String(),
+        default='Just Like the Fambly Cat')
+    song = colander.SchemaNode(
+        colander.String(),
+        description='Song name')

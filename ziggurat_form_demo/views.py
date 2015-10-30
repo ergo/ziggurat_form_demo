@@ -6,15 +6,16 @@ from ziggurat_form.form import ZigguratForm
 from .schemas.test_schemas import (
     UserSchema,
     group_schema,
+    PhonesSchema,
     group_schema2,
     group_schema3,
-    PhonesSchema,
     UserLoginSchema,
     SelectWidgetSchema,
     UserRegisterSchema
 )
 from .schemas.deformdemo_schemas import (
     TextWidgetSchema,
+    FieldDefaultsSchema,
     CheckboxWidgetSchema,
     TextWidgetWithCssSchema,
     TextWidgetReadOnlySchema
@@ -137,8 +138,6 @@ class DemoFormView(object):
     def group_schema(self):
         """ Group Schema
         """
-        # TODO: issue #1 - submit value is not correct and validate is broken
-        # need confirmation if it is fixed now and working as intended
         return {
             "": {'grouped_select': 'honey', 'select': 'jalapeno'}
         }
@@ -169,7 +168,11 @@ class DemoFormView(object):
     def group_schema3(self):
         """ ConfirmWidget in schema wih empty name
         """
-        # TODO: issue #3 - it raises TypeError
-        # this is actually wrong because the value of '' should be {} instead of ''
-        # that is why it failed but I've added a check to prevent this from happening
         return {'': ''}
+
+    @FormView(FieldDefaultsSchema)
+    @view_config(match_param='view=fielddefault_schema')
+    def fielddefault_schema(self):
+        """ Field Defaults
+        """
+        # TODO: issue: is not set default
