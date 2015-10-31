@@ -74,7 +74,12 @@ class HiddenMissingSchema(colander.Schema):
     http://deformdemo.repoze.org/hiddenmissing/
     """
     title = colander.SchemaNode(
-        colander.String())
+        colander.String(),
+        missing="missing title"
+    )
+    required = colander.SchemaNode(
+        colander.String(),
+    )
     number = colander.SchemaNode(
         colander.Integer(),
         widget=HiddenWidget(),
