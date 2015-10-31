@@ -183,4 +183,3 @@ class DemoFormView(object):
     def hiddenmissing_schema(self):
         """ Hidden, Missing Widget Representing an Integer
         """
-        # TODO: issue: is not set missing colander.null
