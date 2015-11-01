@@ -183,3 +183,4 @@ class DemoFormView(object):
     def hiddenmissing_schema(self):
         """ Hidden, Missing Widget Representing an Integer
         """
+        return {'number': 55}

@@ -22,8 +22,14 @@
 {#    {{ run_pdb(form) }}#}
     </form>
 
-    <pre>
-    {{ form.widget.coerced_data|pprint }}
+    <pre style="margin-top:10px">
+    {% if form.valid %}
+    # validated data (colander deserialized)
+    {{ form.validated_data|pprint }}
+    {% else %}
+    # non-validated data
+    {{ form.non_validated_data|pprint }}
+    {% endif %}
     </pre>
 
     <style type="text/css">
