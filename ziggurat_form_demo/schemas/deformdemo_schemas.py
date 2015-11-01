@@ -1,6 +1,7 @@
 import colander
 from ziggurat_form.widgets import (
     TextWidget,
+    HiddenWidget,
     CheckboxWidget,
 )
 
@@ -49,4 +50,53 @@ class CheckboxWidgetSchema(colander.MappingSchema):
         description='Check this box!',
         widget=CheckboxWidget(),
         title='I Want It!'
+    )
+
+
+class _FieldDefaultsSchema(colander.Schema):
+    """
+    http://deformdemo.repoze.org/fielddefaults/
+    """
+    artist = colander.SchemaNode(
+        colander.String(),
+        default='Grandaddy',
+        description='Song name'
+    )
+    album = colander.SchemaNode(
+        colander.String(),
+        default='Just Like the Fambly Cat'
+    )
+    song = colander.SchemaNode(
+        colander.String(),
+        description='Song name'
+    )
+    title = colander.SchemaNode(
+        colander.String(),
+        missing="missing title"
+    )
+
+
+class FieldDefaultsSchema(colander.Schema):
+    title = colander.SchemaNode(
+        colander.String(),
+        missing="missing title"
+    )
+    music = _FieldDefaultsSchema()
+
+
+class HiddenMissingSchema(colander.Schema):
+    """
+    http://deformdemo.repoze.org/hiddenmissing/
+    """
+    title = colander.SchemaNode(
+        colander.String(),
+        missing="missing title"
+    )
+    required = colander.SchemaNode(
+        colander.String(),
+    )
+    number = colander.SchemaNode(
+        colander.Integer(),
+        widget=HiddenWidget(),
+        missing=colander.null,
     )
