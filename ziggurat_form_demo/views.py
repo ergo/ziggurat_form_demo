@@ -75,7 +75,7 @@ class DemoFormView(object):
     def user_register_form(self):
         """ User register
         """
-        return {'password': 'xx'}
+        return {'password': 'xx', 'email': 'incorrect@'}
 
     @FormView(UserSchema)
     @view_config(match_param='view=basic_form')
